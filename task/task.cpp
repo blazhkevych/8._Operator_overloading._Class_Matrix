@@ -1,20 +1,100 @@
-// task.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+﻿/*
+############################################ ЗАДАНИЕ ###########################################
+	Класс «Матрица»
 
+################################################################################################
+		СТАТУС : Не готово.
+		ДОРАБОТКИ:
+*
+		ИЗВЕСТНЫЕ ОШИБКИ:
+*
+		ПРОТЕСТИРОВАТЬ:
+*
+		ВОПРОСЫ:
+*
+		ВИДЕО: 02:37:15 (начало дз)
+################################################################################################
+*/
 #include <iostream>
+#include "Matrix.h"
+using std::cout;
+using std::endl;
+
+Matrix f2()
+{
+	Matrix obj4(3, 3);
+	Init(obj4);
+	cout << "\n\t\t\tMatrix f2() returned obj4 :";
+	cout << obj4;
+	return obj4;
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	srand(time(0));
+
+	// Конструктор по умолчанию.
+	Matrix m0;
+
+	// Конструктор с 2 параметрами.
+	Matrix m1(3, 3);
+	Init(m1);
+	cout << "\t\t\tm1:";
+	cout << m1;
+
+	// Конструктор с 2 параметрами.
+	Matrix m2(3, 3);
+	Init(m2);
+	cout << "\t\t\tm2:";
+	cout << m2;
+
+	//Конструктор копирования.
+	Matrix m3 = m1;
+	cout << "\t\t\tMatrix m3 = m1;";
+	cout << m3;
+
+	// Реализация семантики переноса с использованием r-value ссылок.
+	// Конструктор переноса.
+	// Сложение матриц.
+	Matrix m4 = m1 + m2; // Конструктор переноса.
+	cout << "\t\t\tMatrix m4 = m1 + m2;";
+	cout << m4;
+
+	// Перегруженный оператор присваивания с копированием.
+	Matrix m5(3, 3);
+	Init(m5);
+	cout << "\t\t\tm5:";
+	cout << m5;
+	cout << "\t\t\tm5 = m4;";
+	m5 = m4; // Присваивание с копированием.
+	cout << m5;
+
+	// Перегруженный оператор присваивания с переносом.
+	Matrix m6(3, 3);
+	cout << "\t\t\tm6 = m2 = f2();";
+	m6 = m2 = f2(); // Присваивание с переносом.
+	cout << "\t\t\tm6:";
+	cout << m6;
+
+	// Умножение матриц.
+	Matrix m7(3, 3);
+	Init(m7);
+	cout << "\t\t\tm7:";
+	cout << m7;
+	Matrix m8(3, 3);
+	Init(m8);
+	cout << "\t\t\tm8:";
+	cout << m8;
+	Matrix m9(3, 3);
+	Init(m9);
+	cout << "\t\t\tm9:";
+	cout << m9;
+	cout << "\t\t\tm9 = m7 * m8;";
+	m9 = m7 * m8;
+	cout << m9;
+
+	//
+
+
+
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
