@@ -13,7 +13,7 @@ Matrix::Matrix()
 }
 
 // Конструктор с 2 параметрами.
-Matrix::Matrix(int row, int col) // Проверено.
+Matrix::Matrix(int row, int col)
 {
 	m_row = row;
 	m_col = col;
@@ -23,7 +23,7 @@ Matrix::Matrix(int row, int col) // Проверено.
 }
 
 //Конструктор копирования.
-Matrix::Matrix(const Matrix& matrix) // Проверено.
+Matrix::Matrix(const Matrix& matrix)
 {
 	m_row = matrix.m_row;
 	m_col = matrix.m_col;
@@ -42,7 +42,7 @@ Matrix::Matrix(const Matrix& matrix) // Проверено.
 
 // Реализация семантики переноса с использованием r-value ссылок.
 // Конструктор переноса.
-Matrix::Matrix(Matrix&& matrix) // Проверено.
+Matrix::Matrix(Matrix&& matrix)
 {
 	// Присваивание.
 	m_p = matrix.m_p;
@@ -56,7 +56,7 @@ Matrix::Matrix(Matrix&& matrix) // Проверено.
 }
 
 // Деструктор.
-Matrix::~Matrix() // Проверено.
+Matrix::~Matrix()
 {
 	for (int i = 0; i < m_row; i++)
 		delete[] m_p[i];
@@ -64,7 +64,7 @@ Matrix::~Matrix() // Проверено.
 }
 
 // Перегруженный оператор присваивания с копированием.
-Matrix& Matrix::operator=(const Matrix& matrix) // Проверено.
+Matrix& Matrix::operator=(const Matrix& matrix)
 {
 	if (this == &matrix) // Если самоприсваивание.
 		return *this;
@@ -88,7 +88,7 @@ Matrix& Matrix::operator=(const Matrix& matrix) // Проверено.
 }
 
 // Перегруженный оператор присваивания с переносом.
-Matrix& Matrix::operator=(Matrix&& matrix) // Проверено.
+Matrix& Matrix::operator=(Matrix&& matrix)
 {
 	if (this == &matrix) // Если самоприсваивание.
 		return *this;
@@ -110,8 +110,62 @@ Matrix& Matrix::operator=(Matrix&& matrix) // Проверено.
 	return *this;
 }
 
+// Префиксный инкремент.
+Matrix& Matrix::operator++()
+{
+	for (int i = 0; i < m_row; i++)
+	{
+		for (int j = 0; j < m_col; j++)
+		{
+			m_p[i][j] ++;
+		}
+	}
+	return *this;
+}
+
+// Постфиксный инкремент.
+Matrix Matrix::operator++(int)
+{
+	Matrix tmp = *this;
+	for (int i = 0; i < m_row; i++)
+	{
+		for (int j = 0; j < m_col; j++)
+		{
+			m_p[i][j] ++;
+		}
+	}
+	return tmp;
+}
+
+// Префиксный декремент.
+Matrix& Matrix::operator--()
+{
+	for (int i = 0; i < m_row; i++)
+	{
+		for (int j = 0; j < m_col; j++)
+		{
+			m_p[i][j] --;
+		}
+	}
+	return *this;
+}
+
+// Постфиксный декремент.
+Matrix Matrix::operator--(int)
+{
+	Matrix tmp = *this;
+	for (int i = 0; i < m_row; i++)
+	{
+		for (int j = 0; j < m_col; j++)
+		{
+			m_p[i][j] --;
+		}
+	}
+	return tmp;
+}
+
 // Сложение матриц.
-Matrix Matrix::operator+(const Matrix& matrix) const // Проверено.
+Matrix Matrix::operator+(const Matrix& matrix) const
 {
 	Matrix result(matrix.m_row, matrix.m_col); // Если матрицы одинаковые, выполняем сложение.
 	if (m_row == matrix.m_row && m_col == matrix.m_col)
@@ -134,7 +188,7 @@ Matrix Matrix::operator+(const Matrix& matrix) const // Проверено.
 }
 
 // Умножение матриц.
-Matrix Matrix::operator*(const Matrix& matrix) const // Проверено.
+Matrix Matrix::operator*(const Matrix& matrix) const
 {
 	Matrix result(matrix.m_row, matrix.m_col); // Если матрицы одинаковые, выполняем сложение.
 	if (m_row == matrix.m_row && m_col == matrix.m_col)
@@ -156,15 +210,21 @@ Matrix Matrix::operator*(const Matrix& matrix) const // Проверено.
 	return result;
 }
 
+// Установка / получение значения элемента матрицы.
+int& Matrix::operator()(int row, int col)
+{
+	return m_p[row][col];
+}
+
 // Перегруженный оператор <<. Печать матрицы.
-ostream& operator<<(ostream& cout, Matrix& matrix) // Проверено.
+ostream& operator<<(ostream& cout, Matrix& matrix)
 {
 	cout << endl;
-	for (int i = 0; i < p.m_row; i++)
+	for (int i = 0; i < matrix.m_row; i++)
 	{
-		for (int j = 0; j < p.m_col; j++)
+		for (int j = 0; j < matrix.m_col; j++)
 		{
-			cout << p.m_p[i][j] << '\t';
+			cout << matrix.m_p[i][j] << '\t';
 		}
 		cout << endl;
 	}
@@ -178,19 +238,19 @@ istream& operator>>(istream& cin, Matrix& matrix)
 {
 
 	//Продолжить отсюда. Начать писать эту перегрузку.
-
-	/*cout << endl;
-	v.Clear();
-	for (int i = 0; i < v.m_size; i++)
+	cout << endl;
+	for (int i = 0; i < matrix.m_row; i++)
 	{
-		cout << "vector[" << i << "] = ";
-		cin >> v.m_vect[i];
+		for (int j = 0; j < matrix.m_col; j++)
+			cin >> matrix.m_p[i][j];
 	}
-	return cin;*/
+	cout << endl;
+
+	return cin;
 }
 
 // Функция автоматической инициализации массива.
-Matrix& Init(Matrix& matrix) // Проверено.
+Matrix& Init(Matrix& matrix)
 {
 	int min = 10; // Минимальное значение.
 	int max = 99; // Максимальное значение.
