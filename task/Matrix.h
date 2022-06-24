@@ -27,7 +27,8 @@ public:
 	Matrix operator --(int);					 // Постфиксный декремент.
 	Matrix operator+(const Matrix& matrix) const;// Сложение матриц.
 	Matrix operator*(const Matrix& matrix) const;// Умножение матриц.
-	int& operator()(int row, int col);			 // Установка / получение значения элемента матрицы.
+	int& operator()(int row, int col);			 // Установка / получение значения элемента матрицы.	
+	int*& operator [] (int index);				 // Перегруженный оператор индексации.
 
 	// Перегруженный оператор <<. Печать матрицы.
 	friend ostream& operator << (ostream& cout, Matrix& matrix);

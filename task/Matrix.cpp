@@ -5,28 +5,28 @@ using std::cin;
 using std::endl;
 
 // Конструктор по умолчанию.
-Matrix::Matrix()
-{
-	m_p = nullptr;
-	m_row = 0;
-	m_col = 0;
-}
+Matrix::Matrix() :m_p{ nullptr }, m_row{ 0 }, m_col(0){};
+//{
+//	m_p = nullptr;
+//	m_row = 0;
+//	m_col = 0;
+//}
 
 // Конструктор с 2 параметрами.
-Matrix::Matrix(int row, int col)
+Matrix::Matrix(int row, int col) :m_row{ row }, m_col(col)
 {
-	m_row = row;
-	m_col = col;
+	/*m_row = row;
+	m_col = col;*/
 	m_p = new int* [m_row];
 	for (int i = 0; i < m_row; i++)
 		m_p[i] = new int[m_col];
 }
 
 //Конструктор копирования.
-Matrix::Matrix(const Matrix& matrix)
+Matrix::Matrix(const Matrix& matrix) :m_row{ matrix.m_row }, m_col{ matrix.m_col }
 {
-	m_row = matrix.m_row;
-	m_col = matrix.m_col;
+	/*m_row = matrix.m_row;
+	m_col = matrix.m_col;*/
 	m_p = new int* [m_row];
 	for (int i = 0; i < m_row; i++)
 		m_p[i] = new int[m_col];
@@ -43,11 +43,12 @@ Matrix::Matrix(const Matrix& matrix)
 // Реализация семантики переноса с использованием r-value ссылок.
 // Конструктор переноса.
 Matrix::Matrix(Matrix&& matrix)
+	: m_p{ matrix.m_p }, m_row{ matrix.m_row }, m_col{ matrix.m_col }
 {
 	// Присваивание.
-	m_p = matrix.m_p;
+	/*m_p = matrix.m_p;
 	m_row = matrix.m_row;
-	m_col = matrix.m_col;
+	m_col = matrix.m_col;*/
 
 	// Обнуление matrix.	
 	matrix.m_p = nullptr;
@@ -214,6 +215,12 @@ Matrix Matrix::operator*(const Matrix& matrix) const
 int& Matrix::operator()(int row, int col)
 {
 	return m_p[row][col];
+}
+
+// Перегруженный оператор индексации.
+int*& Matrix::operator[](int index)
+{
+	return m_p[index];
 }
 
 // Перегруженный оператор <<. Печать матрицы.
