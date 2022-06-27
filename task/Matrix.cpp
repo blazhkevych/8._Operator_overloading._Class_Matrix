@@ -219,6 +219,8 @@ int& Matrix::operator()(int row, int col)
 // Перегруженный оператор индексации.
 int*& Matrix::operator[](int index)
 {
+	if (index < 0 || index >= m_row)
+		return m_p[0]; // Не лучшее решение, но пока так.
 	return m_p[index];
 }
 
