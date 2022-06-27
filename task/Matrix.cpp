@@ -17,9 +17,9 @@ Matrix::Matrix(int row, int col) :m_row{ row }, m_col(col)
 {
 	/*m_row = row;
 	m_col = col;*/
-	m_p = new int* [m_row];
+	m_p = new int* [m_row]();
 	for (int i = 0; i < m_row; i++)
-		m_p[i] = new int[m_col];
+		m_p[i] = new int[m_col]();
 }
 
 //Конструктор копирования.
@@ -173,12 +173,8 @@ Matrix Matrix::operator+(const Matrix& matrix) const
 	{
 		// Копирование данных из matrix в новый массив.
 		for (int i = 0; i < m_row; i++)
-		{
 			for (int j = 0; j < m_col; j++)
-			{
 				result.m_p[i][j] = this->m_p[i][j] + matrix.m_p[i][j];
-			}
-		}
 	}
 	else // Если разные, возвращаем переданную сюда матрицу.
 	{
@@ -191,19 +187,22 @@ Matrix Matrix::operator+(const Matrix& matrix) const
 // Умножение матриц.
 Matrix Matrix::operator*(const Matrix& matrix) const
 {
-	Matrix result(matrix.m_row, matrix.m_col); // Если матрицы одинаковые, выполняем сложение.
-	if (m_row == matrix.m_row && m_col == matrix.m_col)
+	Matrix result(m_row, matrix.m_col);
+
+	if (m_col == matrix.m_row)
 	{
-		// Копирование данных из matrix в новый массив.
 		for (int i = 0; i < m_row; i++)
 		{
-			for (int j = 0; j < m_col; j++)
+			for (int j = 0; j < matrix.m_col; j++)
 			{
-				result.m_p[i][j] = this->m_p[i][j] * matrix.m_p[i][j];
+				for (int q = 0; q < m_col; q++)
+				{
+					result[i][j] += m_p[i][q] * matrix.m_p[q][j];
+				}
 			}
 		}
 	}
-	else // Если разные, возвращаем переданную сюда матрицу.
+	else // Иначе, возвращаем переданную сюда матрицу.
 	{
 		return matrix;
 	}
